@@ -1,224 +1,45 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>神秘塔罗 - 灵魂指引</title>
-    <style>
-        /* --- 基础样式 --- */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a0b2e 0%, #2d1b4e 100%);
-            color: #fff;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>神秘塔罗 - 潜意识映照</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    /* --- 📱 手机端适配专用代码 (Mobile Responsive) --- */
+    @media (max-width: 768px) {
+        /* 1. 让所有容器变宽，占满手机屏幕 */
+        body, .container, .main-content, .card-container {
+            width: 95% !important;
+            max-width: 100% !important;
+            padding: 10px !important;
+            margin: 0 auto !important;
         }
 
-        .container {
-            width: 90%;
-            max-width: 800px;
-            margin-top: 50px;
-            text-align: center;
+        /* 2. 强制左右分栏变成上下排列 */
+        div {
+            flex-direction: column !important;
         }
 
+        /* 3. 调整文字大小，防止太小看不清 */
         h1 {
-            color: #ffd700;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            font-size: 24px !important;
+            margin-bottom: 15px !important;
+        }
+        p, li, span {
+            font-size: 16px !important;
+            line-height: 1.6 !important; /* 增加行距，不拥挤 */
         }
 
-        .subtitle {
-            color: #b39ddb;
-            margin-bottom: 40px;
+        /* 4. 让输入框和按钮好点按 */
+        textarea, input, button {
+            width: 100% !important; /* 按钮撑满全屏宽度 */
+            font-size: 18px !important;
+            margin-top: 10px !important;
+            box-sizing: border-box; /* 防止边框撑破屏幕 */
         }
 
-        /* 输入区域 */
-        .input-box {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
+        /* 5. 修复卡片可能溢出的问题 */
+        .card, .tarot-card {
+            width: 100% !important;
+            margin-bottom: 20px !important;
         }
-
-        textarea {
-            width: 100%;
-            height: 100px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid #4a3b69;
-            border-radius: 8px;
-            color: #fff;
-            padding: 15px;
-            font-size: 16px;
-            resize: none;
-            box-sizing: border-box; /* 关键：防止输入框撑破 */
-        }
-
-        textarea:focus {
-            outline: none;
-            border-color: #ffd700;
-        }
-
-        button {
-            background: linear-gradient(45deg, #6200ea, #b388ff);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 18px;
-            border-radius: 25px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: transform 0.2s;
-            width: 100%; /* 手机端友好 */
-            max-width: 200px;
-        }
-
-        button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(98, 0, 234, 0.5);
-        }
-
-        button:disabled {
-            background: #4a3b69;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* 结果显示区域 */
-        #result-area {
-            display: none;
-            text-align: left;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 30px;
-            border-radius: 15px;
-            line-height: 1.8;
-            margin-bottom: 50px;
-        }
-
-        .card-name {
-            color: #ffd700;
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-top: 20px;
-            display: block;
-        }
-
-        /* Loading 动画 */
-        .loader {
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-top: 4px solid #ffd700;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-            display: none;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* --- 📱 手机端适配专用代码 (Mobile Responsive) --- */
-        @media (max-width: 768px) {
-            .container {
-                width: 95%;
-                margin-top: 20px;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .input-box {
-                padding: 20px;
-            }
-
-            textarea {
-                font-size: 16px; /* 防止手机自动缩放 */
-            }
-
-            button {
-                max-width: 100%; /* 按钮撑满全屏 */
-                padding: 15px;
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <h1>✨ 神秘塔罗</h1>
-        <p class="subtitle">潜意识映照 · 正逆位完整解读</p>
-
-        <div class="input-box">
-            <textarea id="question" placeholder="请详细描述你的问题...&#10;例如：我和男朋友异地恋2年了，最近觉得没有话题，该分手还是继续？"></textarea>
-            <br>
-            <button onclick="drawTarot()" id="drawBtn">🔮 开始占卜</button>
-            <div class="loader" id="loader"></div>
-        </div>
-
-        <div id="result-area">
-            </div>
-    </div>
-
-    <script>
-        async function drawTarot() {
-            const question = document.getElementById('question').value;
-            if (!question) {
-                alert('请输入你的问题，让塔罗指引你...');
-                return;
-            }
-
-            // UI 状态切换
-            const btn = document.getElementById('drawBtn');
-            const loader = document.getElementById('loader');
-            const resultArea = document.getElementById('result-area');
-            
-            btn.disabled = true;
-            btn.innerText = "正在连接宇宙能量...";
-            loader.style.display = 'block';
-            resultArea.style.display = 'none';
-
-            try {
-                // 调用后端 API (注意：这里使用相对路径 /api/tarot)
-                const response = await fetch('/api/tarot', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ question })
-                });
-
-                if (!response.ok) {
-                    throw new Error('网络请求失败');
-                }
-
-                const data = await response.json();
-                
-                // 格式化显示结果
-                resultArea.innerHTML = `
-                    <h3>🔮 指引已降临：</h3>
-                    <div style="white-space: pre-wrap;">${data.result}</div>
-                `;
-                resultArea.style.display = 'block';
-
-            } catch (error) {
-                alert('❌ 连接中断：' + error.message);
-            } finally {
-                // 恢复按钮状态
-                btn.disabled = false;
-                btn.innerText = "🔮 重新占卜";
-                loader.style.display = 'none';
-            }
-        }
-    </script>
-</body>
-</html>
+    }
+    /* --- 手机端适配代码结束 --- */
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
