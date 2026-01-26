@@ -729,17 +729,186 @@
             font-style: italic;
         }
         
-        @media (max-width: 1024px) {
-            .main-content { grid-template-columns: 1fr; }
-            h1 { font-size: 3rem; }
-        }
-        
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .mode-tab { padding: 10px 15px; font-size: 0.85rem; }
-            .tarot-card { width: 100px; height: 166px; }
-            .card-input-row { flex-direction: column; align-items: stretch; }
-        }
+        /* ==================== 移动端完整优化 ==================== */
+
+/* 平板设备 */
+@media (max-width: 1024px) {
+    .main-content { 
+        grid-template-columns: 1fr; 
+        gap: 30px;
+    }
+    
+    h1 { 
+        font-size: 3rem; 
+    }
+    
+    .subtitle {
+        font-size: 1.1rem;
+    }
+}
+
+/* 手机设备 */
+@media (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+    
+    .container {
+        padding: 20px 15px;
+    }
+    
+    header {
+        margin-bottom: 40px;
+    }
+    
+    h1 {
+        font-size: 2.5rem;
+        letter-spacing: 2px;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+    
+    .card {
+        padding: 20px 15px;
+        border-radius: 15px;
+    }
+    
+    .selection-panel h2 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+    
+    .mode-tab {
+        padding: 10px 15px;
+        font-size: 0.85rem;
+    }
+    
+    .question-input {
+        min-height: 80px;
+        font-size: 1rem;
+        padding: 12px;
+    }
+    
+    .shuffle-button {
+        padding: 20px;
+        margin: 15px 0;
+    }
+    
+    .shuffle-icon {
+        font-size: 3rem;
+    }
+    
+    .shuffle-text {
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+    }
+    
+    .shuffle-hint {
+        font-size: 0.9rem;
+    }
+    
+    .tarot-card {
+        width: 100px;
+        height: 166px;
+    }
+    
+    .card-symbol-large {
+        font-size: 2rem;
+    }
+    
+    .card-name-small {
+        font-size: 0.7rem;
+    }
+    
+    .card-input-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    
+    .reversed-checkbox-wrapper {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+        margin-top: 5px;
+    }
+    
+    .interpret-button {
+        padding: 15px 30px !important;
+        font-size: 1rem !important;
+    }
+    
+    .result-panel h2 {
+        font-size: 1.5rem !important;
+    }
+    
+    .card-detail {
+        padding: 15px !important;
+    }
+    
+    .card-detail h3 {
+        font-size: 1.3rem !important;
+    }
+    
+    .card-symbol {
+        font-size: 2.5rem !important;
+    }
+    
+    .meaning-section h4 {
+        font-size: 1.1rem !important;
+    }
+    
+    .meaning-text {
+        font-size: 0.95rem !important;
+    }
+    
+    .overall-interpretation {
+        padding: 20px 15px !important;
+    }
+    
+    .overall-interpretation h3 {
+        font-size: 1.4rem !important;
+    }
+    
+    .mystic-interpretation-content {
+        font-size: 1rem !important;
+        line-height: 1.8 !important;
+    }
+}
+
+/* 超小屏幕（iPhone SE等） */
+@media (max-width: 375px) {
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .card {
+        padding: 15px 12px;
+    }
+    
+    .mode-tab {
+        font-size: 0.75rem;
+        padding: 10px 8px;
+    }
+    
+    .tarot-card {
+        width: 85px;
+        height: 141px;
+    }
+    
+    .mystic-interpretation-content {
+        font-size: 0.9rem !important;
+    }
+}
+
     </style>
 </head>
 <body>
