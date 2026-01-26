@@ -5,6 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>神秘塔罗 - 潜意识映照</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    /* --- 📱 手机端适配专用代码 (Mobile Responsive) --- */
+    @media (max-width: 768px) {
+        /* 1. 让所有容器变宽，占满手机屏幕 */
+        body, .container, .main-content, .card-container {
+            width: 95% !important;
+            max-width: 100% !important;
+            padding: 10px !important;
+            margin: 0 auto !important;
+        }
+
+        /* 2. 强制左右分栏变成上下排列 */
+        div {
+            flex-direction: column !important;
+        }
+
+        /* 3. 调整文字大小，防止太小看不清 */
+        h1 {
+            font-size: 24px !important;
+            margin-bottom: 15px !important;
+        }
+        p, li, span {
+            font-size: 16px !important;
+            line-height: 1.6 !important; /* 增加行距，不拥挤 */
+        }
+
+        /* 4. 让输入框和按钮好点按 */
+        textarea, input, button {
+            width: 100% !important; /* 按钮撑满全屏宽度 */
+            font-size: 18px !important;
+            margin-top: 10px !important;
+            box-sizing: border-box; /* 防止边框撑破屏幕 */
+        }
+
+        /* 5. 修复卡片可能溢出的问题 */
+        .card, .tarot-card {
+            width: 100% !important;
+            margin-bottom: 20px !important;
+        }
+    }
+    /* --- 手机端适配代码结束 --- */
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
