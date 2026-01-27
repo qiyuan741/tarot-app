@@ -910,8 +910,6 @@
 }
 
     </style>
-        <!-- 引入生成海报的库 -->
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body>
     <div class="stars" id="stars"></div>
@@ -986,78 +984,9 @@
             ✦ Powered by Star Energy ✦
         </div>
     </div>
-    // ========== 海报功能 ==========
-
-let currentReading = {};
-
-// 显示海报（在占卜结果返回后调用）
-function showPoster(cardName, cardImage, keyword, shortText, fullText) {
-  currentReading = { cardName, cardImage, keyword, shortText, fullText };
-  
-  document.getElementById('posterCardImage').src = cardImage;
-  document.getElementById('posterCardName').textContent = cardName;
-  document.getElementById('posterKeyword').textContent = keyword;
-  document.getElementById('posterShortText').textContent = `"${shortText}"`;
-  document.getElementById('posterFullText').textContent = fullText;
-  
-  document.getElementById('posterModal').style.display = 'block';
-}
-
-// 关闭海报
-function closePoster() {
-  document.getElementById('posterModal').style.display = 'none';
-}
-
-// 下载海报
-async function downloadPoster() {
-  const btn = event.target;
-  btn.textContent = '⏳ 生成中...';
-  btn.disabled = true;
-  
-  try {
-    const element = document.getElementById('posterContent');
-    const canvas = await html2canvas(element, {
-      backgroundColor: '#ffffff',
-      scale: 2,
-      useCORS: true
-    });
+   
     
-    const link = document.createElement('a');
-    link.download = `塔罗占卜-${currentReading.keyword}.png`;
-    link.href = canvas.toDataURL('image/png');
-    link.click();
     
-    alert('🎉 海报已保存！');
-  } catch (err) {
-    alert('❌ 生成失败，请重试');
-  }
-  
-  btn.textContent = '💾 保存图片';
-  btn.disabled = false;
-}
-
-// 解锁完整解读
-function unlockFullReading() {
-  if (confirm('💝 点击确定解锁完整版（演示模式）\n\n实际使用时这里会要求分享')) {
-    const section = document.getElementById('posterFullSection');
-    section.querySelector('div[style*="filter"]').style.filter = 'none';
-    section.querySelector('div[style*="filter"]').style.background = 'linear-gradient(135deg, #fffbeb, #fef3c7)';
-    section.querySelector('div[style*="filter"]').style.border = '2px solid #fbbf24';
-    section.querySelector('div[style*="position: absolute"]').style.display = 'none';
-    alert('✨ 完整解读已解锁！');
-  }
-}
-
-// 在你的占卜函数最后调用
-// 示例：
-// showPoster(
-//   "The Fool",              // 牌名
-//   "/path/to/card.jpg",     // 牌图片
-//   "新的开始",               // 关键词
-//   "勇敢迈出第一步",         // 短文案
-//   "这是完整的详细解读..."   // 完整解读
-// );
-
     <script>
         // ==================== 塔罗牌数据 ====================
         const TAROT_CARDS = [
@@ -1464,84 +1393,6 @@ function unlockFullReading() {
             updateManualSelections();
         });
     </script>
-    <!-- ========== 海报弹窗（开始）========== -->
-<div id="posterModal" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); padding: 1rem; overflow-y: auto;">
-  
-  <div style="max-width: 400px; width: 100%; margin: auto; position: relative;">
-    
-    <!-- 关闭按钮 -->
-    <button onclick="closePoster()" style="position: absolute; top: -12px; right: -12px; width: 40px; height: 40px; background: white; border: none; border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.3); font-size: 20px; cursor: pointer; z-index: 10;">✕</button>
-    
-    <!-- 海报内容 -->
-    <div id="posterContent" style="background: linear-gradient(135deg, #f3e7ff 0%, #ffe7f0 50%, #e7f0ff 100%); border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); overflow: hidden; padding-bottom: 1.5rem;">
-      
-      <!-- 顶部 -->
-      <div style="height: 80px; background: linear-gradient(180deg, rgba(139,92,246,0.3) 0%, transparent 100%); display: flex; align-items: center; justify-content: center; padding-top: 1rem;">
-        <div style="font-size: 14px; color: rgba(88,28,135,0.6); font-weight: 500;">🔮 Soul Tarot</div>
-      </div>
 
-      <!-- 塔罗牌 -->
-      <div style="padding: 0 2rem; margin-top: -2rem;">
-        <div style="background: white; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); padding: 12px; max-width: 200px; margin: 0 auto;">
-          <img id="posterCardImage" src="" alt="塔罗牌" style="width: 100%; border-radius: 12px;">
-          <div id="posterCardName" style="text-align: center; margin-top: 8px; font-size: 14px; color: #666;">牌名</div>
-        </div>
-      </div>
-
-      <!-- 关键词 -->
-      <div style="text-align: center; margin-top: 1.5rem; padding: 0 1.5rem;">
-        <div style="display: inline-flex; gap: 8px; background: rgba(255,255,255,0.8); border-radius: 24px; padding: 8px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-          <span>💜</span>
-          <span style="font-size: 12px; color: #666;">你的关键词</span>
-          <span>💜</span>
-        </div>
-        <h2 id="posterKeyword" style="font-size: 28px; font-weight: bold; background: linear-gradient(90deg, #9333ea, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 12px 0;">关键词</h2>
-      </div>
-
-      <!-- 短文案 -->
-      <div style="margin-top: 1.5rem; padding: 0 1.5rem;">
-        <div style="background: rgba(255,255,255,0.7); border-radius: 16px; padding: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-          <p id="posterShortText" style="color: #374151; font-size: 14px; line-height: 1.6; text-align: center; margin: 0;">"简短文案"</p>
-        </div>
-      </div>
-
-      <!-- 完整解读（模糊） -->
-      <div id="posterFullSection" style="margin: 1rem 1.5rem 0; position: relative; border-radius: 16px; overflow: hidden;">
-        <div style="background: #f3f4f6; border-radius: 16px; padding: 1rem; filter: blur(5px);">
-          <p id="posterFullText" style="color: #9ca3af; font-size: 13px; line-height: 1.6; margin: 0;">完整解读内容...</p>
-        </div>
-        <div style="position: absolute; inset: 0; background: linear-gradient(180deg, transparent, white); display: flex; flex-direction: column; align-items: center; justify-content: center;">
-          <div style="font-size: 24px;">🔒</div>
-          <div style="font-size: 12px; color: #666;">分享解锁完整版</div>
-        </div>
-      </div>
-
-      <!-- 底部品牌 -->
-      <div style="background: rgba(255,255,255,0.9); padding: 1rem 1.5rem; margin-top: 1.5rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div>
-            <div style="font-size: 11px; color: #9ca3af;">免费占卜网址</div>
-            <div style="font-size: 13px; font-weight: 600; color: #9333ea; margin-top: 2px;">tarot.yoursite.com</div>
-          </div>
-          <div style="background: linear-gradient(135deg, #9333ea, #ec4899); width: 60px; height: 60px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: 600; text-align: center; line-height: 1.2;">扫码<br>占卜</div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- 按钮 -->
-    <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 12px;">
-      <button onclick="downloadPoster()" style="width: 100%; padding: 1rem; border: none; border-radius: 16px; background: linear-gradient(90deg, #9333ea, #ec4899); color: white; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(147,51,234,0.3);">💾 保存图片</button>
-      <button onclick="unlockFullReading()" style="width: 100%; padding: 1rem; border: none; border-radius: 16px; background: linear-gradient(90deg, #f59e0b, #f97316); color: white; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(245,158,11,0.3);">
-        <div style="font-size: 16px;">🔓 解锁完整解读</div>
-        <div style="font-size: 11px; opacity: 0.8; margin-top: 4px;">分享给1位好友即可查看</div>
-      </button>
-      <p style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.7); margin: 0;">💡 保存图片分享，让好友也来测~</p>
-    </div>
-
-  </div>
-  
-</div>
-<!-- ========== 海报弹窗（结束）========== -->
 </body>
 </html>
