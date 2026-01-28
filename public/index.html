@@ -2,303 +2,520 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>神秘塔罗 - 潜意识映照</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>神秘塔罗 · 潜意识对话</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
         
         :root {
-            --primary-dark: #1a0b2e;
-            --primary-purple: #4a1a5c;
+            --deep-purple: #0a0416;
+            --mystic-purple: #1a0b2e;
             --accent-gold: #d4af37;
             --accent-rose: #c77b8a;
             --accent-mystic: #8b5fbf;
             --text-light: #f4f1ea;
-            --card-bg: rgba(26, 11, 46, 0.85);
         }
         
         body {
             font-family: 'Crimson Text', serif;
-            background: linear-gradient(135deg, #0f0522 0%, #1a0b2e 50%, #2d1144 100%);
+            background: radial-gradient(ellipse at center, var(--mystic-purple) 0%, var(--deep-purple) 100%);
             background-attachment: fixed;
             color: var(--text-light);
             min-height: 100vh;
             overflow-x: hidden;
         }
         
+        /* 呼吸光效 */
         body::before {
             content: '';
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 50%, rgba(199, 123, 138, 0.05) 0%, transparent 50%);
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(139, 95, 191, 0.15) 0%, transparent 60%);
+            animation: breathe 8s ease-in-out infinite;
             pointer-events: none;
             z-index: 0;
         }
         
+        @keyframes breathe {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+        
         .stars {
             position: fixed;
-            width: 100%; height: 100%;
-            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
             pointer-events: none;
             z-index: 1;
         }
         
         .star {
             position: absolute;
-            width: 2px; height: 2px;
-            background: white;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 50%;
-            animation: twinkle 3s infinite;
+            animation: twinkle 4s ease-in-out infinite;
         }
         
         @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
+            0%, 100% { opacity: 0.2; }
             50% { opacity: 1; }
         }
         
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 40px 20px;
+        .app-container {
             position: relative;
             z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
         
-        header {
+        /* 顶部标题 */
+        .header {
             text-align: center;
-            margin-bottom: 60px;
-            animation: fadeInDown 1s ease-out;
+            padding: 30px 20px 20px;
         }
         
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        h1 {
+        .header h1 {
             font-family: 'Cinzel', serif;
-            font-size: 4rem;
+            font-size: clamp(2rem, 6vw, 3.5rem);
             font-weight: 700;
             background: linear-gradient(135deg, var(--accent-gold), var(--accent-rose));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
         }
         
         .subtitle {
-            font-size: 1.3rem;
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
             color: var(--accent-rose);
-            font-style: italic;
-            letter-spacing: 2px;
+            opacity: 0.8;
         }
         
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 40px;
-            animation: fadeIn 1.2s ease-out 0.3s both;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-        }
-        
-        .selection-panel h2 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.8rem;
-            color: var(--accent-gold);
-            margin-bottom: 25px;
-            text-align: center;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        label {
-            display: block;
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-            color: var(--accent-rose);
-            font-weight: 600;
+        /* 问题输入区 */
+        .question-section {
+            max-width: 600px;
+            margin: 20px auto;
         }
         
         .question-input {
             width: 100%;
             min-height: 100px;
             padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(26, 11, 46, 0.6);
             border: 2px solid rgba(212, 175, 55, 0.3);
-            border-radius: 10px;
+            border-radius: 12px;
             color: var(--text-light);
             font-family: 'Crimson Text', serif;
-            font-size: 1.1rem;
-            resize: vertical;
-            transition: all 0.3s ease;
+            font-size: 1rem;
+            resize: none;
+            backdrop-filter: blur(10px);
         }
         
         .question-input:focus {
             outline: none;
             border-color: var(--accent-gold);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
         }
         
-        .question-input::placeholder {
-            color: rgba(244, 241, 234, 0.4);
-            font-style: italic;
-        }
-        
-        .mode-switch-container {
-            margin: 25px 0;
-            display: flex;
-            justify-content: center;
-        }
-        
+        /* 模式切换 */
         .mode-switch {
             display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .mode-btn {
+            padding: 10px 25px;
             background: rgba(139, 95, 191, 0.2);
-            border-radius: 15px;
-            padding: 5px;
-            border: 2px solid rgba(139, 95, 191, 0.3);
-            position: relative;
-        }
-        
-        .mode-switch::before {
-            content: '';
-            position: absolute;
-            top: 3px; left: 3px;
-            width: calc(50% - 6px);
-            height: calc(100% - 6px);
-            background: linear-gradient(135deg, var(--accent-gold), var(--accent-mystic));
-            border-radius: 12px;
-            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 0;
-        }
-        
-        .mode-switch.mode-manual::before {
-            transform: translateX(calc(100% + 6px));
-        }
-        
-        .mode-tab {
-            flex: 1;
-            padding: 12px 30px;
-            font-family: 'Cinzel', serif;
-            font-size: 0.95rem;
-            font-weight: 600;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 1;
-            color: rgba(244, 241, 234, 0.6);
-            white-space: nowrap;
-        }
-        
-        .mode-tab.active {
-            color: var(--primary-dark);
-        }
-        
-        .mode-tab:hover:not(.active) {
-            color: var(--text-light);
-        }
-        
-        .mode-tab::before {
-            content: '✦';
-            margin-right: 8px;
-            font-size: 1.2rem;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .mode-tab.active::before {
-            opacity: 1;
-        }
-        
-        .shuffle-button {
-            width: 100%;
-            padding: 30px;
-            background: linear-gradient(135deg, rgba(139, 95, 191, 0.3), rgba(212, 175, 55, 0.2));
-            border: 3px solid transparent;
+            border: 2px solid rgba(139, 95, 191, 0.4);
             border-radius: 20px;
-            position: relative;
-            overflow: hidden;
+            color: var(--text-light);
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s ease;
+        }
+        
+        .mode-btn.active {
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-mystic));
+            border-color: transparent;
+            color: var(--deep-purple);
+        }
+        
+        /* 牌数选择 */
+        .card-count-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
             margin: 20px 0;
         }
         
-        .shuffle-button::before {
-            content: '';
-            position: absolute;
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
-            background: linear-gradient(45deg, var(--accent-gold), var(--accent-mystic), var(--accent-rose), var(--accent-gold));
-            background-size: 300% 300%;
-            border-radius: 20px;
-            z-index: -1;
-            animation: breathe 4s ease-in-out infinite;
-        }
-        
-        @keyframes breathe {
-            0%, 100% { opacity: 0.5; background-position: 0% 50%; }
-            50% { opacity: 1; background-position: 100% 50%; }
-        }
-        
-        .shuffle-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
-        }
-        
-        .shuffle-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .shuffle-icon {
-            font-size: 4rem;
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .shuffle-text {
-            font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
-            font-weight: 600;
+        .count-btn {
+            padding: 8px 20px;
+            background: rgba(26, 11, 46, 0.6);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
             color: var(--text-light);
-            text-transform: uppercase;
-            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
         
-        .shuffle-hint {
+        .count-btn.active {
+            background: var(--accent-gold);
+            color: var(--deep-purple);
+            border-color: var(--accent-gold);
+        }
+        
+        /* 扇形牌阵容器 */
+        .fan-container {
+            display: none;
+            position: relative;
+            height: 450px;
+            margin: 30px auto;
+            max-width: 100%;
+        }
+        
+        .fan-container.active {
+            display: block;
+        }
+        
+        /* 扇形卡牌 */
+        .fan-card {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            width: 100px;
+            height: 160px;
+            transform-origin: bottom center;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+        }
+        
+        .fan-card:hover {
+            transform: translateX(-50px) translateY(-40px) scale(1.15) !important;
+            z-index: 100 !important;
+        }
+        
+        .fan-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        
+        .fan-card.selected .fan-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .fan-card-front,
+        .fan-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        .fan-card-front {
+            background: linear-gradient(135deg, var(--accent-mystic), var(--mystic-purple));
+            border: 2px solid var(--accent-gold);
+        }
+        
+        .fan-card-front::before {
+            content: '✦';
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+        }
+        
+        .fan-card-back {
+            background: rgba(26, 11, 46, 0.95);
+            border: 2px solid var(--accent-rose);
+            transform: rotateY(180deg);
+            flex-direction: column;
+            padding: 10px;
+            gap: 8px;
+        }
+        
+        .card-symbol {
+            font-size: 2rem;
+        }
+        
+        .card-symbol.reversed {
+            transform: rotate(180deg);
+            color: var(--accent-rose);
+        }
+        
+        .card-name {
+            font-size: 0.75rem;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .reversed-badge {
+            background: var(--accent-rose);
+            color: var(--deep-purple);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.65rem;
+        }
+        
+        /* 手动选牌区域 */
+        .manual-selection {
+            display: none;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        
+        .manual-selection.active {
+            display: block;
+        }
+        
+        .card-input-group {
+            margin: 15px 0;
+        }
+        
+        .card-input-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .card-input-row select {
+            flex: 1;
+            padding: 10px;
+            background: rgba(26, 11, 46, 0.6);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+        
+        .card-input-row select option {
+            background: var(--mystic-purple);
+        }
+        
+        .reversed-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+        
+        .reversed-checkbox input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--accent-rose);
+        }
+        
+        /* 开始按钮 */
+        .start-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 15px 50px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-rose));
+            border: none;
+            border-radius: 25px;
+            color: var(--deep-purple);
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .start-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
+        }
+        
+        .start-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* 对话区域 */
+        .conversation-container {
+            display: none;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background: rgba(26, 11, 46, 0.5);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .conversation-container.active {
+            display: block;
+        }
+        
+        /* 抽到的牌 */
+        .drawn-cards {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .drawn-card-item {
+            text-align: center;
+            padding: 10px;
+            background: rgba(139, 95, 191, 0.1);
+            border-radius: 8px;
+        }
+        
+        .drawn-card-symbol {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        
+        .drawn-card-symbol.reversed {
+            transform: rotate(180deg);
+            display: inline-block;
+            color: var(--accent-rose);
+        }
+        
+        /* 消息列表 */
+        .messages {
+            max-height: 500px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        
+        .message {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 12px;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message.user {
+            background: rgba(212, 175, 55, 0.15);
+            border-left: 3px solid var(--accent-gold);
+        }
+        
+        .message.assistant {
+            background: rgba(139, 95, 191, 0.15);
+            border-left: 3px solid var(--accent-mystic);
+        }
+        
+        .message-role {
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .message.assistant .message-role {
+            color: var(--accent-mystic);
+        }
+        
+        .message-content {
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+        
+        .message-content strong {
+            color: var(--accent-gold);
+        }
+        
+        .message-content em {
+            color: var(--accent-rose);
+        }
+        
+        /* 打字机光标 */
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background: var(--accent-gold);
+            margin-left: 2px;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* 追问输入框 */
+        .followup-section {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .followup-input {
+            flex: 1;
+            padding: 12px;
+            background: rgba(26, 11, 46, 0.6);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px;
+            color: var(--text-light);
             font-size: 1rem;
-            color: rgba(244, 241, 234, 0.7);
-            font-style: italic;
         }
         
-        .shuffling .shuffle-icon {
-            animation: spin 1s linear infinite;
+        .followup-input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+        
+        .followup-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-mystic));
+            border: none;
+            border-radius: 20px;
+            color: var(--deep-purple);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .followup-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+        
+        .followup-btn:disabled {
+            opacity: 0.5;
+        }
+        
+        /* 加载状态 */
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .loading-symbol {
+            font-size: 2.5rem;
+            animation: spin 2s linear infinite;
         }
         
         @keyframes spin {
@@ -306,862 +523,261 @@
             to { transform: rotate(360deg); }
         }
         
-        .card-reveal {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin: 20px 0;
-        }
-        
-        .tarot-card {
-            width: 120px;
-            height: 200px;
-            perspective: 1000px;
-            cursor: pointer;
-        }
-        
-        .tarot-card-inner {
-            position: relative;
-            width: 100%; height: 100%;
-            transition: transform 0.8s;
-            transform-style: preserve-3d;
-        }
-        
-        .tarot-card.flipped .tarot-card-inner {
-            transform: rotateY(180deg);
-        }
-        
-        .tarot-card-front, .tarot-card-back {
-            position: absolute;
-            width: 100%; height: 100%;
-            backface-visibility: hidden;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.85rem;
-            text-align: center;
-            padding: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .tarot-card-front {
-            background: linear-gradient(135deg, var(--primary-purple), var(--accent-mystic));
-            border: 2px solid var(--accent-gold);
-            font-family: 'Cinzel', serif;
-            color: var(--accent-gold);
-            font-size: 3rem;
-        }
-        
-        .tarot-card-back {
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(139, 95, 191, 0.2));
-            border: 2px solid var(--accent-gold);
-            transform: rotateY(180deg);
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .tarot-card-back.reversed {
-            border-color: var(--accent-rose);
-        }
-        
-        .tarot-card-back.reversed .card-symbol-large {
-            transform: rotate(180deg);
-            color: var(--accent-rose);
-        }
-        
-        .card-symbol-large {
-            font-size: 2.5rem;
-            transition: transform 0.3s ease;
-        }
-        
-        .card-name-small {
-            font-size: 0.75rem;
-            font-weight: 600;
-            line-height: 1.2;
-        }
-        
-        .reversed-badge {
-            background: var(--accent-rose);
-            color: var(--primary-dark);
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            margin-top: 4px;
-        }
-        
-        .online-mode, .manual-mode {
-            display: none;
-        }
-        
-        .online-mode.active, .manual-mode.active {
-            display: block;
-        }
-        
-        select {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 10px;
-            color: var(--text-light);
-            font-family: 'Crimson Text', serif;
-            font-size: 1rem;
-        }
-        
-        select:focus {
-            outline: none;
-            border-color: var(--accent-gold);
-        }
-        
-        select option {
-            background: var(--primary-dark);
-        }
-        
-        .card-selection {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .card-input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .card-input-group label {
-            font-size: 0.95rem;
-        }
-        
-        .card-input-row {
-            display: flex;
-            gap: 15px;
-            align-items: flex-end;
-        }
-        
-        .card-select-wrapper {
-            flex: 1;
-        }
-        
-        .reversed-checkbox-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .reversed-checkbox-label {
-            font-size: 0.85rem;
-            color: var(--accent-rose);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            user-select: none;
-        }
-        
-        input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            accent-color: var(--accent-rose);
-        }
-        
-        .btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, var(--accent-gold), var(--accent-rose));
-            border: none;
-            border-radius: 12px;
-            color: var(--primary-dark);
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
-        }
-        
-        .btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.5);
-        }
-        
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .results h2 {
-            font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            color: var(--accent-gold);
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        .cosmic-loading {
-            text-align: center;
-            padding: 60px 20px;
-        }
-        
-        .cosmic-orb {
-            display: inline-block;
-            position: relative;
-            width: 100px;
-            height: 100px;
-        }
-        
-        .cosmic-orb::before {
-            content: '🔮';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 3rem;
-            animation: orb-pulse 2s ease-in-out infinite;
-        }
-        
-        @keyframes orb-pulse {
-            0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.9); }
-            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
-        }
-        
-        .cosmic-orb div {
-            position: absolute;
-            border: 3px solid var(--accent-gold);
-            opacity: 1;
-            border-radius: 50%;
-            animation: cosmic-ripple 1.5s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-        }
-        
-        .cosmic-orb div:nth-child(2) {
-            animation-delay: -0.5s;
-            border-color: var(--accent-mystic);
-        }
-        
-        .cosmic-orb div:nth-child(3) {
-            animation-delay: -1s;
-            border-color: var(--accent-rose);
-        }
-        
-        @keyframes cosmic-ripple {
-            0% {
-                top: 50px;
-                left: 50px;
-                width: 0;
-                height: 0;
-                opacity: 1;
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .fan-card {
+                width: 80px;
+                height: 130px;
             }
-            100% {
-                top: 0;
-                left: 0;
-                width: 100px;
-                height: 100px;
-                opacity: 0;
+            
+            .fan-container {
+                height: 350px;
+            }
+            
+            .mode-btn, .count-btn {
+                font-size: 0.85rem;
+                padding: 8px 15px;
+            }
+            
+            .card-input-row {
+                flex-direction: column;
+                align-items: stretch;
             }
         }
         
-        .cosmic-loading-text {
-            margin-top: 30px;
-            font-size: 1.3rem;
-            color: var(--accent-gold);
-            font-family: 'Cinzel', serif;
-            animation: pulse 2s ease-in-out infinite;
+        .hidden {
+            display: none !important;
         }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-        
-        .cosmic-loading-hint {
-            margin-top: 15px;
-            font-size: 1rem;
-            color: rgba(244, 241, 234, 0.6);
-            font-style: italic;
-        }
-        
-        .reading-result {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 15px;
-            padding: 30px;
-            border-left: 4px solid var(--accent-gold);
-            animation: slideInUp 0.6s ease-out;
-        }
-        
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .question-display {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: rgba(212, 175, 55, 0.1);
-            border-radius: 10px;
-        }
-        
-        .question-display strong {
-            color: var(--accent-gold);
-            font-size: 1.3rem;
-            display: block;
-            margin-bottom: 10px;
-        }
-        
-        .question-display p {
-            font-style: italic;
-            opacity: 0.9;
-            font-size: 1.1rem;
-        }
-        
-        .cards-display {
-            margin: 30px 0;
-            padding: 20px;
-            background: rgba(199, 123, 138, 0.05);
-            border-radius: 10px;
-        }
-        
-        .cards-display strong {
-            color: var(--accent-rose);
-            font-size: 1.2rem;
-            display: block;
-            margin-bottom: 15px;
-        }
-        
-        .card-item {
-            margin: 12px 0;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .card-item-symbol {
-            font-size: 1.8rem;
-            transition: transform 0.3s ease;
-        }
-        
-        .card-item-symbol.reversed {
-            transform: rotate(180deg);
-            color: var(--accent-rose);
-        }
-        
-        .card-item-name {
-            flex: 1;
-        }
-        
-        .reversed-tag {
-            background: var(--accent-rose);
-            color: var(--primary-dark);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 700;
-        }
-        
-        .mystic-interpretation {
-            margin-top: 30px;
-            padding: 30px;
-            background: rgba(139, 95, 191, 0.1);
-            border-radius: 12px;
-            border: 2px solid rgba(139, 95, 191, 0.3);
-        }
-        
-        .mystic-interpretation h3 {
-            color: var(--accent-gold);
-            font-size: 1.4rem;
-            margin-bottom: 20px;
-            font-family: 'Cinzel', serif;
-            text-align: center;
-        }
-        
-        .mystic-interpretation-content {
-            line-height: 2;
-            font-size: 1.15rem;
-            white-space: pre-wrap;
-            color: rgba(244, 241, 234, 0.95);
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: rgba(244, 241, 234, 0.5);
-            font-size: 1.2rem;
-            font-style: italic;
-        }
-        
-        .example-questions {
-            background: rgba(212, 175, 55, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 10px;
-            font-size: 0.95rem;
-        }
-        
-        .example-questions p {
-            margin: 5px 0;
-            color: rgba(244, 241, 234, 0.7);
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-        
-        .example-questions p:hover {
-            color: var(--accent-gold);
-        }
-        
-        .footer {
-            text-align: center;
-            margin-top: 60px;
-            padding: 20px;
-            opacity: 0.6;
-            font-size: 0.9rem;
-            font-style: italic;
-        }
-        
-        /* ==================== 移动端完整优化 ==================== */
-
-/* 平板设备 */
-@media (max-width: 1024px) {
-    .main-content { 
-        grid-template-columns: 1fr; 
-        gap: 30px;
-    }
-    
-    h1 { 
-        font-size: 3rem; 
-    }
-    
-    .subtitle {
-        font-size: 1.1rem;
-    }
-}
-
-/* 手机设备 */
-@media (max-width: 768px) {
-    body {
-        font-size: 16px;
-    }
-    
-    .container {
-        padding: 20px 15px;
-    }
-    
-    header {
-        margin-bottom: 40px;
-    }
-    
-    h1 {
-        font-size: 2.5rem;
-        letter-spacing: 2px;
-    }
-    
-    .subtitle {
-        font-size: 1rem;
-        letter-spacing: 1px;
-    }
-    
-    .card {
-        padding: 20px 15px;
-        border-radius: 15px;
-    }
-    
-    .selection-panel h2 {
-        font-size: 1.5rem;
-        margin-bottom: 20px;
-    }
-    
-    .mode-tab {
-        padding: 10px 15px;
-        font-size: 0.85rem;
-    }
-    
-    .question-input {
-        min-height: 80px;
-        font-size: 1rem;
-        padding: 12px;
-    }
-    
-    .shuffle-button {
-        padding: 20px;
-        margin: 15px 0;
-    }
-    
-    .shuffle-icon {
-        font-size: 3rem;
-    }
-    
-    .shuffle-text {
-        font-size: 1.2rem;
-        letter-spacing: 2px;
-    }
-    
-    .shuffle-hint {
-        font-size: 0.9rem;
-    }
-    
-    .tarot-card {
-        width: 100px;
-        height: 166px;
-    }
-    
-    .card-symbol-large {
-        font-size: 2rem;
-    }
-    
-    .card-name-small {
-        font-size: 0.7rem;
-    }
-    
-    .card-input-row {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-    }
-    
-    .reversed-checkbox-wrapper {
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 10px;
-        margin-top: 5px;
-    }
-    
-    .interpret-button {
-        padding: 15px 30px !important;
-        font-size: 1rem !important;
-    }
-    
-    .result-panel h2 {
-        font-size: 1.5rem !important;
-    }
-    
-    .card-detail {
-        padding: 15px !important;
-    }
-    
-    .card-detail h3 {
-        font-size: 1.3rem !important;
-    }
-    
-    .card-symbol {
-        font-size: 2.5rem !important;
-    }
-    
-    .meaning-section h4 {
-        font-size: 1.1rem !important;
-    }
-    
-    .meaning-text {
-        font-size: 0.95rem !important;
-    }
-    
-    .overall-interpretation {
-        padding: 20px 15px !important;
-    }
-    
-    .overall-interpretation h3 {
-        font-size: 1.4rem !important;
-    }
-    
-    .mystic-interpretation-content {
-        font-size: 1rem !important;
-        line-height: 1.8 !important;
-    }
-}
-
-/* 超小屏幕（iPhone SE等） */
-@media (max-width: 375px) {
-    h1 {
-        font-size: 2rem;
-    }
-    
-    .subtitle {
-        font-size: 0.9rem;
-    }
-    
-    .card {
-        padding: 15px 12px;
-    }
-    
-    .mode-tab {
-        font-size: 0.75rem;
-        padding: 10px 8px;
-    }
-    
-    .tarot-card {
-        width: 85px;
-        height: 141px;
-    }
-    
-    .mystic-interpretation-content {
-        font-size: 0.9rem !important;
-    }
-}
-
     </style>
 </head>
 <body>
     <div class="stars" id="stars"></div>
     
-    <div class="container">
-        <header>
+    <div class="app-container">
+        <!-- 标题 -->
+        <div class="header">
             <h1>✧ 神秘塔罗 ✧</h1>
-            <p class="subtitle">潜意识映照 · 正逆位完整解读</p>
-        </header>
-        
-        <div class="main-content">
-            <div class="card selection-panel">
-                <h2>🔮 开始占卜</h2>
-                
-                <div class="form-group">
-                    <label for="user-question">你的问题</label>
-                    <textarea id="user-question" class="question-input" placeholder="请详细描述你的问题...
-
-例如：我和男朋友异地恋2年了，最近觉得他对我越来越冷淡，消息回得慢，打电话也总说忙。我很担心我们的关系，不知道该怎么办..."></textarea>
-                    
-                    <div class="example-questions">
-                        <strong style="color: var(--accent-gold); font-size: 0.9rem;">💡 点击使用示例：</strong>
-                        <p onclick="useExample(this)">💕 我和男朋友在一起3年了，最近总为小事吵架，我们还有未来吗？</p>
-                        <p onclick="useExample(this)">💼 公司给我升职机会但工作量会翻倍，我该接受吗？</p>
-                        <p onclick="useExample(this)">💰 朋友邀请我投资他的创业项目，说能赚大钱，我该投吗？</p>
-                    </div>
-                </div>
-                
-                <div class="mode-switch-container">
-                    <div class="mode-switch" id="modeSwitch">
-                        <div class="mode-tab active" data-mode="online">线上沉浸抽牌</div>
-                        <div class="mode-tab" data-mode="manual">实体牌录入</div>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="card-count">抽取牌数</label>
-                    <select id="card-count">
-                        <option value="1">1张牌 - 快速指引</option>
-                        <option value="3" selected>3张牌 - 过去/现在/未来</option>
-                        <option value="5">5张牌 - 深度分析</option>
-                    </select>
-                </div>
-                
-                <div class="online-mode active" id="onlineMode">
-                    <button class="shuffle-button" id="shuffleBtn">
-                        <div class="shuffle-content">
-                            <div class="shuffle-icon">🔮</div>
-                            <div class="shuffle-text">点击洗牌</div>
-                            <div class="shuffle-hint">让命运为你选择...</div>
-                        </div>
-                    </button>
-                    <div id="cardsDisplay"></div>
-                </div>
-                
-                <div class="manual-mode" id="manualMode">
-                    <div id="card-selections" class="card-selection"></div>
-                </div>
-                
-                <button class="btn" id="interpret-btn">🌙 开始解读</button>
-            </div>
-            
-            <div class="card results">
-                <h2>✨ 卡牌指引</h2>
-                <div id="results-content" class="empty-state">
-                    输入你的问题，抽取塔罗牌，<br>获得来自潜意识的深度启示...
-                </div>
-            </div>
+            <p class="subtitle">潜意识对话 · 持续追问</p>
         </div>
         
-        <div class="footer">
-            ✦ Powered by Star Energy ✦
+        <!-- 问题输入 -->
+        <div class="question-section" id="questionSection">
+            <textarea 
+                class="question-input" 
+                id="questionInput" 
+                placeholder="在命运的十字路口，是什么困扰着你？
+
+例如：我最近在考虑跳槽，但又担心新环境不适应..."
+            ></textarea>
+        </div>
+        
+        <!-- 模式切换 -->
+        <div class="mode-switch" id="modeSwitch">
+            <button class="mode-btn active" data-mode="fan">🔮 扇形抽牌</button>
+            <button class="mode-btn" data-mode="manual">🌙 手动录入</button>
+        </div>
+        
+        <!-- 牌数选择 -->
+        <div class="card-count-selector" id="cardCountSelector">
+            <button class="count-btn" data-count="1">1张牌</button>
+            <button class="count-btn active" data-count="3">3张牌</button>
+            <button class="count-btn" data-count="5">5张牌</button>
+        </div>
+        
+        <!-- 扇形牌阵 -->
+        <div class="fan-container active" id="fanContainer"></div>
+        
+        <!-- 手动选牌 -->
+        <div class="manual-selection" id="manualSelection"></div>
+        
+        <!-- 开始按钮 -->
+        <button class="start-btn" id="startBtn">开始解读</button>
+        
+        <!-- 对话区域 -->
+        <div class="conversation-container" id="conversationContainer">
+            <!-- 抽到的牌 -->
+            <div class="drawn-cards" id="drawnCards"></div>
+            
+            <!-- 消息列表 -->
+            <div class="messages" id="messages"></div>
+            
+            <!-- 追问输入 -->
+            <div class="followup-section">
+                <input 
+                    type="text" 
+                    class="followup-input" 
+                    id="followupInput" 
+                    placeholder="有疑惑？继续提问..."
+                />
+                <button class="followup-btn" id="followupBtn">发送</button>
+            </div>
         </div>
     </div>
-   
     
-    
+    <script src="tarot-data.js"></script>
     <script>
-        // ==================== 塔罗牌数据 ====================
-        const TAROT_CARDS = [
-            { name: "愚者", symbol: "🃏", englishName: "The Fool" },
-            { name: "魔术师", symbol: "🎩", englishName: "The Magician" },
-            { name: "女祭司", symbol: "🌙", englishName: "The High Priestess" },
-            { name: "皇后", symbol: "👑", englishName: "The Empress" },
-            { name: "皇帝", symbol: "⚔️", englishName: "The Emperor" },
-            { name: "教皇", symbol: "📿", englishName: "The Hierophant" },
-            { name: "恋人", symbol: "💑", englishName: "The Lovers" },
-            { name: "战车", symbol: "🏇", englishName: "The Chariot" },
-            { name: "力量", symbol: "🦁", englishName: "Strength" },
-            { name: "隐士", symbol: "🕯️", englishName: "The Hermit" },
-            { name: "命运之轮", symbol: "🎡", englishName: "Wheel of Fortune" },
-            { name: "正义", symbol: "⚖️", englishName: "Justice" },
-            { name: "倒吊人", symbol: "🙃", englishName: "The Hanged Man" },
-            { name: "死神", symbol: "💀", englishName: "Death" },
-            { name: "节制", symbol: "🍵", englishName: "Temperance" },
-            { name: "恶魔", symbol: "😈", englishName: "The Devil" },
-            { name: "塔", symbol: "🗼", englishName: "The Tower" },
-            { name: "星星", symbol: "⭐", englishName: "The Star" },
-            { name: "月亮", symbol: "🌙", englishName: "The Moon" },
-            { name: "太阳", symbol: "☀️", englishName: "The Sun" },
-            { name: "审判", symbol: "📯", englishName: "Judgement" },
-            { name: "世界", symbol: "🌍", englishName: "The World" }
-        ];
+        // ========== 全局状态 ==========
+        let currentMode = 'fan';
+        let cardCount = 3;
+        let selectedCards = [];
+        let conversationHistory = [];
+        const POSITIONS = {
+            1: ['核心指引'],
+            3: ['过去/根源', '现在/核心', '未来/结果'],
+            5: ['过去影响', '当前状况', '未来趋势', '内在因素', '外在影响']
+        };
         
-        const minorSuits = [
-            { suit: "权杖", symbol: "🔥", english: "Wands" },
-            { suit: "圣杯", symbol: "💧", english: "Cups" },
-            { suit: "宝剑", symbol: "⚔️", english: "Swords" },
-            { suit: "星币", symbol: "💰", english: "Pentacles" }
-        ];
-        
-        minorSuits.forEach(({suit, symbol, english}) => {
-            for (let i = 1; i <= 10; i++) {
-                const name = i === 1 ? `${suit}王牌` : `${suit}${i}`;
-                const engName = i === 1 ? `Ace of ${english}` : `${i} of ${english}`;
-                TAROT_CARDS.push({ name, symbol, englishName: engName });
-            }
-            ['侍从', '骑士', '王后', '国王'].forEach((court, idx) => {
-                const courtEng = ['Page', 'Knight', 'Queen', 'King'][idx];
-                TAROT_CARDS.push({
-                    name: `${suit}${court}`,
-                    symbol: symbol,
-                    englishName: `${courtEng} of ${english}`
+        // ========== 初始化 ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            createFanCards();
+            updateManualSelection();
+            
+            // 模式切换
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentMode = btn.dataset.mode;
+                    
+                    if (currentMode === 'fan') {
+                        document.getElementById('fanContainer').classList.add('active');
+                        document.getElementById('manualSelection').classList.remove('active');
+                        createFanCards();
+                    } else {
+                        document.getElementById('fanContainer').classList.remove('active');
+                        document.getElementById('manualSelection').classList.add('active');
+                        updateManualSelection();
+                    }
+                    selectedCards = [];
                 });
+            });
+            
+            // 牌数选择
+            document.querySelectorAll('.count-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.count-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    cardCount = parseInt(btn.dataset.count);
+                    selectedCards = [];
+                    
+                    if (currentMode === 'fan') {
+                        createFanCards();
+                    } else {
+                        updateManualSelection();
+                    }
+                });
+            });
+            
+            document.getElementById('startBtn').addEventListener('click', startReading);
+            document.getElementById('followupBtn').addEventListener('click', sendFollowup);
+            
+            // 回车发送
+            document.getElementById('followupInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendFollowup();
             });
         });
         
-        let currentMode = 'online';
-        let selectedCards = [];
-        
+        // ========== 创建星空 ==========
         function createStars() {
             const stars = document.getElementById('stars');
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < 60; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 star.style.left = Math.random() * 100 + '%';
                 star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDelay = Math.random() * 4 + 's';
                 stars.appendChild(star);
             }
         }
         
-        function switchMode(mode) {
-            currentMode = mode;
-            const modeSwitch = document.getElementById('modeSwitch');
-            const onlineMode = document.getElementById('onlineMode');
-            const manualMode = document.getElementById('manualMode');
-            const tabs = document.querySelectorAll('.mode-tab');
+        // ========== 创建扇形牌阵 ==========
+        function createFanCards() {
+            const container = document.getElementById('fanContainer');
+            container.innerHTML = '';
+            selectedCards = [];
             
-            tabs.forEach(tab => {
-                tab.classList.toggle('active', tab.dataset.mode === mode);
-            });
+            const totalCards = 22; // 大阿尔卡纳
+            const angleSpread = 80; // 扇形角度（增大以适应手机）
+            const angleStep = angleSpread / (totalCards - 1);
+            const startAngle = -angleSpread / 2;
             
-            if (mode === 'online') {
-                modeSwitch.classList.remove('mode-manual');
-                onlineMode.classList.add('active');
-                manualMode.classList.remove('active');
-            } else {
-                modeSwitch.classList.add('mode-manual');
-                onlineMode.classList.remove('active');
-                manualMode.classList.add('active');
-                updateManualSelections();
+            for (let i = 0; i < totalCards; i++) {
+                const card = document.createElement('div');
+                card.className = 'fan-card';
+                card.dataset.index = i;
+                
+                const angle = startAngle + (i * angleStep);
+                const translateX = -50; // 从中心偏移
+                
+                card.style.transform = `translateX(${translateX}px) rotate(${angle}deg)`;
+                card.style.zIndex = i;
+                
+                card.innerHTML = `
+                    <div class="fan-card-inner">
+                        <div class="fan-card-front"></div>
+                        <div class="fan-card-back"></div>
+                    </div>
+                `;
+                
+                card.addEventListener('click', () => selectFanCard(card, i));
+                container.appendChild(card);
             }
         }
         
-        function shuffleCards() {
-            const question = document.getElementById('user-question').value.trim();
-            if (!question) {
-                alert('请先输入你的问题！');
+        // ========== 选择扇形牌 ==========
+        function selectFanCard(cardElement, index) {
+            // 检查是否已满
+            if (selectedCards.length >= cardCount && !cardElement.classList.contains('selected')) {
+                alert(`最多选择${cardCount}张牌`);
                 return;
             }
             
-            const btn = document.getElementById('shuffleBtn');
-            const count = parseInt(document.getElementById('card-count').value);
-            
-            btn.classList.add('shuffling');
-            btn.style.pointerEvents = 'none';
-            
-            setTimeout(() => {
-                selectedCards = [];
-                const available = [...TAROT_CARDS];
+            if (cardElement.classList.contains('selected')) {
+                // 取消选择
+                cardElement.classList.remove('selected');
+                selectedCards = selectedCards.filter(c => c.index !== index);
+            } else {
+                // 选择牌
+                cardElement.classList.add('selected');
+                const randomCard = TAROT_CARDS[Math.floor(Math.random() * 22)];
+                const isReversed = Math.random() < 0.5;
                 
-                for (let i = 0; i < count; i++) {
-                    const idx = Math.floor(Math.random() * available.length);
-                    const card = available.splice(idx, 1)[0];
-                    const isReversed = Math.random() < 0.5;
-                    
-                    selectedCards.push({
-                        card: card,
-                        isReversed: isReversed
-                    });
-                }
-                
-                displayDrawnCards();
-                btn.classList.remove('shuffling');
-                btn.style.pointerEvents = 'auto';
-            }, 2000);
-        }
-        
-        function displayDrawnCards() {
-            const container = document.getElementById('cardsDisplay');
-            let html = '<div class="card-reveal">';
-            selectedCards.forEach((item, i) => {
-                const { card, isReversed } = item;
-                html += `
-                    <div class="tarot-card" data-index="${i}">
-                        <div class="tarot-card-inner">
-                            <div class="tarot-card-front">✦</div>
-                            <div class="tarot-card-back ${isReversed ? 'reversed' : ''}">
-                                <div class="card-symbol-large">${card.symbol}</div>
-                                <div class="card-name-small">${card.name}</div>
-                                ${isReversed ? '<div class="reversed-badge">逆位</div>' : ''}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            html += '</div>';
-            container.innerHTML = html;
-            
-            setTimeout(() => {
-                document.querySelectorAll('.tarot-card').forEach((el, i) => {
-                    setTimeout(() => el.classList.add('flipped'), i * 300);
+                selectedCards.push({
+                    index,
+                    card: randomCard,
+                    isReversed
                 });
-            }, 100);
+                
+                // 更新背面显示
+                const backFace = cardElement.querySelector('.fan-card-back');
+                backFace.innerHTML = `
+                    <div class="card-symbol ${isReversed ? 'reversed' : ''}">${randomCard.symbol}</div>
+                    <div class="card-name">${randomCard.name}</div>
+                    ${isReversed ? '<div class="reversed-badge">逆位</div>' : ''}
+                `;
+            }
         }
         
-        function updateManualSelections() {
-            const count = parseInt(document.getElementById('card-count').value);
-            const container = document.getElementById('card-selections');
+        // ========== 更新手动选牌 ==========
+        function updateManualSelection() {
+            const container = document.getElementById('manualSelection');
             container.innerHTML = '';
+            selectedCards = [];
             
-            for (let i = 0; i < count; i++) {
+            for (let i = 0; i < cardCount; i++) {
                 const group = document.createElement('div');
                 group.className = 'card-input-group';
                 
-                const label = document.createElement('label');
-                label.textContent = `第 ${i + 1} 张牌`;
-                group.appendChild(label);
-                
                 const row = document.createElement('div');
                 row.className = 'card-input-row';
-                
-                const selectWrapper = document.createElement('div');
-                selectWrapper.className = 'card-select-wrapper';
                 
                 const select = document.createElement('select');
                 select.id = `card-${i}`;
                 
                 const placeholder = document.createElement('option');
                 placeholder.value = '';
-                placeholder.textContent = '-- 选择牌面 --';
+                placeholder.textContent = `-- 第${i+1}张牌 --`;
                 select.appendChild(placeholder);
                 
                 TAROT_CARDS.forEach(card => {
@@ -1171,228 +787,199 @@
                     select.appendChild(option);
                 });
                 
-                selectWrapper.appendChild(select);
+                const checkbox = document.createElement('label');
+                checkbox.className = 'reversed-checkbox';
+                checkbox.innerHTML = `
+                    <input type="checkbox" id="reversed-${i}">
+                    <span>逆位</span>
+                `;
                 
-                const checkboxWrapper = document.createElement('div');
-                checkboxWrapper.className = 'reversed-checkbox-wrapper';
-                
-                const checkboxLabel = document.createElement('label');
-                checkboxLabel.className = 'reversed-checkbox-label';
-                
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.id = `reversed-${i}`;
-                
-                checkboxLabel.appendChild(checkbox);
-                checkboxLabel.appendChild(document.createTextNode('逆位'));
-                
-                checkboxWrapper.appendChild(checkboxLabel);
-                
-                row.appendChild(selectWrapper);
-                row.appendChild(checkboxWrapper);
-                
+                row.appendChild(select);
+                row.appendChild(checkbox);
                 group.appendChild(row);
                 container.appendChild(group);
             }
         }
         
-        function useExample(el) {
-            document.getElementById('user-question').value = el.textContent.substring(3);
-        }
-        
-        // ==================== 调用后端 API ====================
-        async function getCardGuidance(question, cardsData) {
-            const positions = {
-                1: ['核心指引'],
-                3: ['过去/根源', '现在/核心', '未来/结果'],
-                5: ['过去影响', '当前状况', '未来趋势', '内在因素', '外在影响']
-            };
-            
-            const posArray = positions[cardsData.length] || cardsData.map((_, i) => `第${i+1}张`);
-            
-            try {
-                const response = await fetch('/api/tarot', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        question: question,
-                        cards: cardsData,
-                        positions: posArray
-                    })
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`请求失败: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                return data.interpretation;
-                
-            } catch (error) {
-                console.error('解读错误:', error);
-                throw error;
-            }
-        }
-        
-        async function performReading() {
-            const question = document.getElementById('user-question').value.trim();
+        // ========== 开始解读 ==========
+        async function startReading() {
+            const question = document.getElementById('questionInput').value.trim();
             if (!question) {
-                alert('请先输入你的问题！');
+                alert('请先输入你的问题');
                 return;
             }
             
-            let cardsData = [];
-            
-            if (currentMode === 'online') {
-                if (selectedCards.length === 0) {
-                    alert('请先点击洗牌抽取塔罗牌！');
-                    return;
-                }
-                cardsData = selectedCards;
+            // 收集卡牌
+            let cards = [];
+            if (currentMode === 'fan') {
+                cards = selectedCards;
             } else {
-                const count = parseInt(document.getElementById('card-count').value);
-                for (let i = 0; i < count; i++) {
+                for (let i = 0; i < cardCount; i++) {
                     const select = document.getElementById(`card-${i}`);
                     const checkbox = document.getElementById(`reversed-${i}`);
                     
                     if (select && select.value) {
                         const card = TAROT_CARDS.find(c => c.name === select.value);
                         if (card) {
-                            cardsData.push({
+                            cards.push({
                                 card: card,
                                 isReversed: checkbox ? checkbox.checked : false
                             });
                         }
                     }
                 }
-                
-                if (cardsData.length === 0) {
-                    alert('请至少选择一张塔罗牌！');
-                    return;
-                }
             }
             
-            showCosmicLoading();
+            if (cards.length !== cardCount) {
+                alert(`请选择${cardCount}张牌`);
+                return;
+            }
             
-            const btn = document.getElementById('interpret-btn');
-            btn.disabled = true;
+            // 初始化对话
+            conversationHistory = [];
+            selectedCards = cards;
+            
+            // 隐藏选牌区，显示对话区
+            document.getElementById('questionSection').classList.add('hidden');
+            document.getElementById('modeSwitch').classList.add('hidden');
+            document.getElementById('cardCountSelector').classList.add('hidden');
+            document.getElementById('fanContainer').classList.add('hidden');
+            document.getElementById('manualSelection').classList.add('hidden');
+            document.getElementById('startBtn').classList.add('hidden');
+            
+            document.getElementById('conversationContainer').classList.add('active');
+            
+            // 显示抽到的牌
+            showDrawnCards(cards);
+            
+            // 添加用户问题
+            addMessage('user', question);
+            
+            // 调用 API
+            await streamResponse(question, cards);
+        }
+        
+        // ========== 显示抽到的牌 ==========
+        function showDrawnCards(cards) {
+            const container = document.getElementById('drawnCards');
+            const positions = POSITIONS[cards.length];
+            
+            container.innerHTML = cards.map((item, i) => {
+                const { card, isReversed } = item;
+                return `
+                    <div class="drawn-card-item">
+                        <div class="drawn-card-symbol ${isReversed ? 'reversed' : ''}">${card.symbol}</div>
+                        <div style="font-size:0.85rem">${card.name}</div>
+                        <div style="font-size:0.75rem;opacity:0.7">${positions[i]}</div>
+                        ${isReversed ? '<div class="reversed-badge">逆位</div>' : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // ========== 添加消息 ==========
+        function addMessage(role, content) {
+            const messages = document.getElementById('messages');
+            const message = document.createElement('div');
+            message.className = `message ${role}`;
+            
+            message.innerHTML = `
+                <div class="message-role">${role === 'user' ? '你的问题' : '索菲亚的解读'}</div>
+                <div class="message-content">${content}</div>
+            `;
+            
+            messages.appendChild(message);
+            messages.scrollTop = messages.scrollHeight;
+            
+            conversationHistory.push({ role, content });
+        }
+        
+        // ========== 流式响应 ==========
+        async function streamResponse(question, cards) {
+            const positions = POSITIONS[cards.length];
             
             try {
-                const guidance = await getCardGuidance(question, cardsData);
-                displayGuidance(question, cardsData, guidance);
+                const response = await fetch('/api/tarot-chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        question,
+                        cards,
+                        positions,
+                        history: conversationHistory
+                    })
+                });
+                
+                if (!response.ok) throw new Error('API请求失败');
+                
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                
+                // 创建助手消息
+                const messages = document.getElementById('messages');
+                const message = document.createElement('div');
+                message.className = 'message assistant';
+                message.innerHTML = `
+                    <div class="message-role">索菲亚的解读</div>
+                    <div class="message-content"><span class="typing-cursor"></span></div>
+                `;
+                messages.appendChild(message);
+                
+                const contentDiv = message.querySelector('.message-content');
+                let fullContent = '';
+                let buffer = '';
+                
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    buffer += decoder.decode(value, { stream: true });
+                    const lines = buffer.split('\n');
+                    buffer = lines.pop();
+                    
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            const data = line.slice(6);
+                            if (data === '[DONE]') continue;
+                            
+                            try {
+                                const parsed = JSON.parse(data);
+                                const delta = parsed.choices[0]?.delta?.content || '';
+                                fullContent += delta;
+                                contentDiv.innerHTML = fullContent + '<span class="typing-cursor"></span>';
+                                messages.scrollTop = messages.scrollHeight;
+                            } catch (e) {}
+                        }
+                    }
+                }
+                
+                // 移除光标
+                contentDiv.innerHTML = fullContent;
+                conversationHistory.push({ role: 'assistant', content: fullContent });
+                
             } catch (error) {
-                showErrorState(error);
-            } finally {
-                btn.disabled = false;
+                addMessage('assistant', `抱歉，解读失败: ${error.message}`);
             }
         }
         
-        function showCosmicLoading() {
-            const container = document.getElementById('results-content');
-            container.innerHTML = `
-                <div class="cosmic-loading">
-                    <div class="cosmic-orb">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
-                    <div class="cosmic-loading-text">🌌 正在连接宇宙能量...</div>
-                    <div class="cosmic-loading-hint">解读牌面中蕴含的深层象征</div>
-                </div>
-            `;
+        // ========== 追问 ==========
+        async function sendFollowup() {
+            const input = document.getElementById('followupInput');
+            const question = input.value.trim();
+            
+            if (!question) return;
+            
+            input.value = '';
+            input.disabled = true;
+            document.getElementById('followupBtn').disabled = true;
+            
+            addMessage('user', question);
+            
+            await streamResponse(question, selectedCards);
+            
+            input.disabled = false;
+            document.getElementById('followupBtn').disabled = false;
         }
-        
-        function displayGuidance(question, cardsData, guidance) {
-            const container = document.getElementById('results-content');
-            const positions = {
-                1: ['核心指引'],
-                3: ['过去/根源', '现在/核心', '未来/结果'],
-                5: ['过去影响', '当前状况', '未来趋势', '内在因素', '外在影响']
-            };
-            
-            const posArray = positions[cardsData.length] || cardsData.map((_, i) => `第${i+1}张`);
-            
-            let html = `
-                <div class="reading-result">
-                    <div class="question-display">
-                        <strong>你的问题</strong>
-                        <p>"${question}"</p>
-                    </div>
-                    
-                    <div class="cards-display">
-                        <strong>抽到的牌</strong>
-                        ${cardsData.map((item, i) => {
-                            const { card, isReversed } = item;
-                            return `
-                                <div class="card-item">
-                                    <span class="card-item-symbol ${isReversed ? 'reversed' : ''}">${card.symbol}</span>
-                                    <span class="card-item-name">
-                                        <strong>${card.name}</strong>
-                                        <span style="opacity:0.7;margin-left:8px">(${posArray[i]})</span>
-                                    </span>
-                                    ${isReversed ? '<span class="reversed-tag">逆位</span>' : ''}
-                                </div>
-                            `;
-                        }).join('')}
-                    </div>
-                    
-                    <div class="mystic-interpretation">
-                        <h3>🌙 深度启示</h3>
-                        <div class="mystic-interpretation-content">${guidance}</div>
-                    </div>
-                    
-                    <div style="margin-top:30px;padding:20px;background:rgba(199,123,138,0.08);border-radius:10px;border-left:3px solid var(--accent-rose)">
-                        <p style="margin:0;font-size:1.05rem;line-height:1.9;opacity:0.9">
-                            <strong style="color:var(--accent-rose)">💝 温馨提示：</strong>
-                            这是基于荣格心理学视角的潜意识映照，旨在帮助你更好地理解自己的内在状态。逆位牌不代表坏运气，而是能量的不同表达方式。最终的决定权永远在你手中。
-                        </p>
-                    </div>
-                </div>
-            `;
-            
-            container.innerHTML = html;
-        }
-        
-        function showErrorState(error) {
-            const container = document.getElementById('results-content');
-            container.innerHTML = `
-                <div class="reading-result" style="border-left-color:#dc3545">
-                    <h3 style="color:#dc3545;margin-bottom:15px;text-align:center">❌ 解读失败</h3>
-                    <p style="line-height:2;text-align:center">抱歉，能量连接暂时中断。</p>
-                    <div style="margin-top:20px;padding:15px;background:rgba(255,193,7,0.1);border-radius:8px">
-                        <strong>可能的原因：</strong>
-                        <ul style="margin:10px 0 10px 20px;line-height:2">
-                            <li>服务器连接问题</li>
-                            <li>网络暂时不稳定</li>
-                            <li>服务暂时不可用</li>
-                        </ul>
-                        <p style="margin-top:10px;font-size:0.9rem;opacity:0.8">错误详情: ${error.message}</p>
-                    </div>
-                </div>
-            `;
-        }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            createStars();
-            
-            document.querySelectorAll('.mode-tab').forEach(tab => {
-                tab.addEventListener('click', () => switchMode(tab.dataset.mode));
-            });
-            
-            document.getElementById('card-count').addEventListener('change', () => {
-                if (currentMode === 'manual') updateManualSelections();
-                selectedCards = [];
-                document.getElementById('cardsDisplay').innerHTML = '';
-            });
-            
-            document.getElementById('shuffleBtn').addEventListener('click', shuffleCards);
-            document.getElementById('interpret-btn').addEventListener('click', performReading);
-            
-            updateManualSelections();
-        });
     </script>
-
 </body>
 </html>
