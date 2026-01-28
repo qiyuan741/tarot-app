@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>神秘塔罗 · 潜意识对话</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        :root {
+            --deep-purple: #0a0416;
+            --mystic-purple: #1a0b2e;
+            --accent-gold: #d4af37;
+            --accent-rose: #c77b8a;
+            --accent-mystic: #8b5fbf;
+            --text-light: #f4f1ea;
+        }
+        
+        body {
+            font-family: 'Crimson Text', serif;
+            background: radial-gradient(ellipse at center, var(--mystic-purple) 0%, var(--deep-purple) 100%);
+            background-attachment: fixed;
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* 呼吸光效 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(139, 95, 191, 0.15) 0%, transparent 60%);
+            animation: breathe 8s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        @keyframes breathe {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+        
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: twinkle 4s ease-in-out infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+        
+        .app-container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 顶部标题 */
+        .header {
+            text-align: center;
+            padding: 30px 20px 20px;
+        }
+        
+        .header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-rose));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            color: var(--accent-rose);
+            opacity: 0.8;
+        }
+        
+        /* 问题输入区 */
+        .question-section {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        
+        .question-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 15px;
+            background: rgba(26, 11, 46, 0.6);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            color: var(--text-light);
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+            resize: none;
+            backdrop-filter: blur(10px);
+        }
+        
+        .question-input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        /* 模式切换 */
+        .mode-switch {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .mode-btn {
+            padding: 10px 25px;
+            background: rgba(139, 95, 191, 0.2);
+            border: 2px solid rgba(139, 95, 191, 0.4);
+            border-radius: 20px;
+            color: var(--text-light);
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .mode-btn.active {
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-mystic));
+            border-color: transparent;
+            color: var(--deep-purple);
+        }
+        
+        /* 牌数选择 */
+        .card-count-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .count-btn {
+            padding: 8px 20px;
+            background: rgba(26, 11, 46, 0.6);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .count-btn.active {
+            background: var(--accent-gold);
+            color: var(--deep-purple);
+            border-color: var(--accent-gold);
+        }
+        
+        /* 扇形牌阵容器 */
+        .fan-container {
+            display: none;
+            position: relative;
+            height: 450px;
+            margin: 30px auto;
+            max-width: 100%;
+        }
+        
+        .fan-container.active {
+            display: block;
+        }
+        
+        /* 扇形卡牌 */
+        .fan-card {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            width: 100px;
+            height: 160px;
+            transform-origin: bottom center;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+        }
+        
+        .fan-card:hover {
+            transform: translateX(-50px) translateY(-40px) scale(1.15) !important;
+            z-index: 100 !important;
+        }
+        
+        .fan-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        
+        .fan-card.selected .fan-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .fan-card-front,
+        .fan-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        .fan-card-front {
+            background: linear-gradient(135deg, var(--accent-mystic), var(--mystic-purple));
+            border: 2px solid var(--accent-gold);
+        }
+        
+        .fan-card-front::before {
+            content: '✦';
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+        }
+        
+        .fan-card-back {
+            background: rgba(26, 11, 46, 0.95);
+            border: 2px solid var(--accent-rose);
+            transform: rotateY(180deg);
+            flex-direction: column;
+            padding: 10px;
+            gap: 8px;
+        }
+        
+        .card-symbol {
+            font-size: 2rem;
+        }
+        
+        .card-symbol.reversed {
+            transform: rotate(180deg);
+            color: var(--accent-rose);
+        }
+        
+        .card-name {
+            font-size: 0.75rem;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .reversed-badge {
+            background: var(--accent-rose);
+            color: var(--deep-purple);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.65rem;
+        }
+        
+        /* 手动选牌区域 */
+        .manual-selection {
+            display: none;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        
+        .manual-selection.active {
+            display: block;
+        }
+        
+        .card-input-group {
+            margin: 15px 0;
+        }
+        
+        .card-input-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .card-input-row select {
+            flex: 1;
+            padding: 10px;
+            background: rgba(26, 11, 46, 0.6);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+        
+        .card-input-row select option {
+            background: var(--mystic-purple);
+        }
+        
+        .reversed-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+        
+        .reversed-checkbox input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--accent-rose);
+        }
+        
+        /* 开始按钮 */
+        .start-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 15px 50px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-rose));
+            border: none;
+            border-radius: 25px;
+            color: var(--deep-purple);
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .start-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
+        }
+        
+        .start-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* 对话区域 */
+        .conversation-container {
+            display: none;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background: rgba(26, 11, 46, 0.5);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .conversation-container.active {
+            display: block;
+        }
+        
+        /* 抽到的牌 */
+        .drawn-cards {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .drawn-card-item {
+            text-align: center;
+            padding: 10px;
+            background: rgba(139, 95, 191, 0.1);
+            border-radius: 8px;
+        }
+        
+        .drawn-card-symbol {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        
+        .drawn-card-symbol.reversed {
+            transform: rotate(180deg);
+            display: inline-block;
+            color: var(--accent-rose);
+        }
+        
+        /* 消息列表 */
+        .messages {
+            max-height: 500px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        
+        .message {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 12px;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message.user {
+            background: rgba(212, 175, 55, 0.15);
+            border-left: 3px solid var(--accent-gold);
+        }
+        
+        .message.assistant {
+            background: rgba(139, 95, 191, 0.15);
+            border-left: 3px solid var(--accent-mystic);
+        }
+        
+        .message-role {
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .message.assistant .message-role {
+            color: var(--accent-mystic);
+        }
+        
+        .message-content {
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+        
+        .message-content strong {
+            color: var(--accent-gold);
+        }
+        
+        .message-content em {
+            color: var(--accent-rose);
+        }
+        
+        /* 打字机光标 */
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background: var(--accent-gold);
+            margin-left: 2px;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* 追问输入框 */
+        .followup-section {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .followup-input {
+            flex: 1;
+            padding: 12px;
+            background: rgba(26, 11, 46, 0.6);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px;
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+        
+        .followup-input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+        
+        .followup-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-mystic));
+            border: none;
+            border-radius: 20px;
+            color: var(--deep-purple);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .followup-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+        
+        .followup-btn:disabled {
+            opacity: 0.5;
+        }
+        
+        /* 加载状态 */
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .loading-symbol {
+            font-size: 2.5rem;
+            animation: spin 2s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .fan-card {
+                width: 80px;
+                height: 130px;
+            }
+            
+            .fan-container {
+                height: 350px;
+            }
+            
+            .mode-btn, .count-btn {
+                font-size: 0.85rem;
+                padding: 8px 15px;
+            }
+            
+            .card-input-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="app-container">
+        <!-- 标题 -->
+        <div class="header">
+            <h1>✧ 神秘塔罗 ✧</h1>
+            <p class="subtitle">潜意识对话 · 持续追问</p>
+        </div>
+        
+        <!-- 问题输入 -->
+        <div class="question-section" id="questionSection">
+            <textarea 
+                class="question-input" 
+                id="questionInput" 
+                placeholder="在命运的十字路口，是什么困扰着你？
+
+例如：我最近在考虑跳槽，但又担心新环境不适应..."
+            ></textarea>
+        </div>
+        
+        <!-- 模式切换 -->
+        <div class="mode-switch" id="modeSwitch">
+            <button class="mode-btn active" data-mode="fan">🔮 扇形抽牌</button>
+            <button class="mode-btn" data-mode="manual">🌙 手动录入</button>
+        </div>
+        
+        <!-- 牌数选择 -->
+        <div class="card-count-selector" id="cardCountSelector">
+            <button class="count-btn" data-count="1">1张牌</button>
+            <button class="count-btn active" data-count="3">3张牌</button>
+            <button class="count-btn" data-count="5">5张牌</button>
+        </div>
+        
+        <!-- 扇形牌阵 -->
+        <div class="fan-container active" id="fanContainer"></div>
+        
+        <!-- 手动选牌 -->
+        <div class="manual-selection" id="manualSelection"></div>
+        
+        <!-- 开始按钮 -->
+        <button class="start-btn" id="startBtn">开始解读</button>
+        
+        <!-- 对话区域 -->
+        <div class="conversation-container" id="conversationContainer">
+            <!-- 抽到的牌 -->
+            <div class="drawn-cards" id="drawnCards"></div>
+            
+            <!-- 消息列表 -->
+            <div class="messages" id="messages"></div>
+            
+            <!-- 追问输入 -->
+            <div class="followup-section">
+                <input 
+                    type="text" 
+                    class="followup-input" 
+                    id="followupInput" 
+                    placeholder="有疑惑？继续提问..."
+                />
+                <button class="followup-btn" id="followupBtn">发送</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="tarot-data.js"></script>
+    <script>
+        // ========== 全局状态 ==========
+        let currentMode = 'fan';
+        let cardCount = 3;
+        let selectedCards = [];
+        let conversationHistory = [];
+        const POSITIONS = {
+            1: ['核心指引'],
+            3: ['过去/根源', '现在/核心', '未来/结果'],
+            5: ['过去影响', '当前状况', '未来趋势', '内在因素', '外在影响']
+        };
+        
+        // ========== 初始化 ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            createFanCards();
+            updateManualSelection();
+            
+            // 模式切换
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentMode = btn.dataset.mode;
+                    
+                    if (currentMode === 'fan') {
+                        document.getElementById('fanContainer').classList.add('active');
+                        document.getElementById('manualSelection').classList.remove('active');
+                        createFanCards();
+                    } else {
+                        document.getElementById('fanContainer').classList.remove('active');
+                        document.getElementById('manualSelection').classList.add('active');
+                        updateManualSelection();
+                    }
+                    selectedCards = [];
+                });
+            });
+            
+            // 牌数选择
+            document.querySelectorAll('.count-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.count-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    cardCount = parseInt(btn.dataset.count);
+                    selectedCards = [];
+                    
+                    if (currentMode === 'fan') {
+                        createFanCards();
+                    } else {
+                        updateManualSelection();
+                    }
+                });
+            });
+            
+            document.getElementById('startBtn').addEventListener('click', startReading);
+            document.getElementById('followupBtn').addEventListener('click', sendFollowup);
+            
+            // 回车发送
+            document.getElementById('followupInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendFollowup();
+            });
+        });
+        
+        // ========== 创建星空 ==========
+        function createStars() {
+            const stars = document.getElementById('stars');
+            for (let i = 0; i < 60; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 4 + 's';
+                stars.appendChild(star);
+            }
+        }
+        
+        // ========== 创建扇形牌阵 ==========
+        function createFanCards() {
+            const container = document.getElementById('fanContainer');
+            container.innerHTML = '';
+            selectedCards = [];
+            
+            const totalCards = 22; // 大阿尔卡纳
+            const angleSpread = 80; // 扇形角度（增大以适应手机）
+            const angleStep = angleSpread / (totalCards - 1);
+            const startAngle = -angleSpread / 2;
+            
+            for (let i = 0; i < totalCards; i++) {
+                const card = document.createElement('div');
+                card.className = 'fan-card';
+                card.dataset.index = i;
+                
+                const angle = startAngle + (i * angleStep);
+                const translateX = -50; // 从中心偏移
+                
+                card.style.transform = `translateX(${translateX}px) rotate(${angle}deg)`;
+                card.style.zIndex = i;
+                
+                card.innerHTML = `
+                    <div class="fan-card-inner">
+                        <div class="fan-card-front"></div>
+                        <div class="fan-card-back"></div>
+                    </div>
+                `;
+                
+                card.addEventListener('click', () => selectFanCard(card, i));
+                container.appendChild(card);
+            }
+        }
+        
+        // ========== 选择扇形牌 ==========
+        function selectFanCard(cardElement, index) {
+            // 检查是否已满
+            if (selectedCards.length >= cardCount && !cardElement.classList.contains('selected')) {
+                alert(`最多选择${cardCount}张牌`);
+                return;
+            }
+            
+            if (cardElement.classList.contains('selected')) {
+                // 取消选择
+                cardElement.classList.remove('selected');
+                selectedCards = selectedCards.filter(c => c.index !== index);
+            } else {
+                // 选择牌
+                cardElement.classList.add('selected');
+                const randomCard = TAROT_CARDS[Math.floor(Math.random() * 22)];
+                const isReversed = Math.random() < 0.5;
+                
+                selectedCards.push({
+                    index,
+                    card: randomCard,
+                    isReversed
+                });
+                
+                // 更新背面显示
+                const backFace = cardElement.querySelector('.fan-card-back');
+                backFace.innerHTML = `
+                    <div class="card-symbol ${isReversed ? 'reversed' : ''}">${randomCard.symbol}</div>
+                    <div class="card-name">${randomCard.name}</div>
+                    ${isReversed ? '<div class="reversed-badge">逆位</div>' : ''}
+                `;
+            }
+        }
+        
+        // ========== 更新手动选牌 ==========
+        function updateManualSelection() {
+            const container = document.getElementById('manualSelection');
+            container.innerHTML = '';
+            selectedCards = [];
+            
+            for (let i = 0; i < cardCount; i++) {
+                const group = document.createElement('div');
+                group.className = 'card-input-group';
+                
+                const row = document.createElement('div');
+                row.className = 'card-input-row';
+                
+                const select = document.createElement('select');
+                select.id = `card-${i}`;
+                
+                const placeholder = document.createElement('option');
+                placeholder.value = '';
+                placeholder.textContent = `-- 第${i+1}张牌 --`;
+                select.appendChild(placeholder);
+                
+                TAROT_CARDS.forEach(card => {
+                    const option = document.createElement('option');
+                    option.value = card.name;
+                    option.textContent = `${card.symbol} ${card.name}`;
+                    select.appendChild(option);
+                });
+                
+                const checkbox = document.createElement('label');
+                checkbox.className = 'reversed-checkbox';
+                checkbox.innerHTML = `
+                    <input type="checkbox" id="reversed-${i}">
+                    <span>逆位</span>
+                `;
+                
+                row.appendChild(select);
+                row.appendChild(checkbox);
+                group.appendChild(row);
+                container.appendChild(group);
+            }
+        }
+        
+        // ========== 开始解读 ==========
+        async function startReading() {
+            const question = document.getElementById('questionInput').value.trim();
+            if (!question) {
+                alert('请先输入你的问题');
+                return;
+            }
+            
+            // 收集卡牌
+            let cards = [];
+            if (currentMode === 'fan') {
+                cards = selectedCards;
+            } else {
+                for (let i = 0; i < cardCount; i++) {
+                    const select = document.getElementById(`card-${i}`);
+                    const checkbox = document.getElementById(`reversed-${i}`);
+                    
+                    if (select && select.value) {
+                        const card = TAROT_CARDS.find(c => c.name === select.value);
+                        if (card) {
+                            cards.push({
+                                card: card,
+                                isReversed: checkbox ? checkbox.checked : false
+                            });
+                        }
+                    }
+                }
+            }
+            
+            if (cards.length !== cardCount) {
+                alert(`请选择${cardCount}张牌`);
+                return;
+            }
+            
+            // 初始化对话
+            conversationHistory = [];
+            selectedCards = cards;
+            
+            // 隐藏选牌区，显示对话区
+            document.getElementById('questionSection').classList.add('hidden');
+            document.getElementById('modeSwitch').classList.add('hidden');
+            document.getElementById('cardCountSelector').classList.add('hidden');
+            document.getElementById('fanContainer').classList.add('hidden');
+            document.getElementById('manualSelection').classList.add('hidden');
+            document.getElementById('startBtn').classList.add('hidden');
+            
+            document.getElementById('conversationContainer').classList.add('active');
+            
+            // 显示抽到的牌
+            showDrawnCards(cards);
+            
+            // 添加用户问题
+            addMessage('user', question);
+            
+            // 调用 API
+            await streamResponse(question, cards);
+        }
+        
+        // ========== 显示抽到的牌 ==========
+        function showDrawnCards(cards) {
+            const container = document.getElementById('drawnCards');
+            const positions = POSITIONS[cards.length];
+            
+            container.innerHTML = cards.map((item, i) => {
+                const { card, isReversed } = item;
+                return `
+                    <div class="drawn-card-item">
+                        <div class="drawn-card-symbol ${isReversed ? 'reversed' : ''}">${card.symbol}</div>
+                        <div style="font-size:0.85rem">${card.name}</div>
+                        <div style="font-size:0.75rem;opacity:0.7">${positions[i]}</div>
+                        ${isReversed ? '<div class="reversed-badge">逆位</div>' : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // ========== 添加消息 ==========
+        function addMessage(role, content) {
+            const messages = document.getElementById('messages');
+            const message = document.createElement('div');
+            message.className = `message ${role}`;
+            
+            message.innerHTML = `
+                <div class="message-role">${role === 'user' ? '你的问题' : '索菲亚的解读'}</div>
+                <div class="message-content">${content}</div>
+            `;
+            
+            messages.appendChild(message);
+            messages.scrollTop = messages.scrollHeight;
+            
+            conversationHistory.push({ role, content });
+        }
+        
+        // ========== 流式响应 ==========
+        async function streamResponse(question, cards) {
+            const positions = POSITIONS[cards.length];
+            
+            try {
+                const response = await fetch('/api/tarot-chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        question,
+                        cards,
+                        positions,
+                        history: conversationHistory
+                    })
+                });
+                
+                if (!response.ok) throw new Error('API请求失败');
+                
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                
+                // 创建助手消息
+                const messages = document.getElementById('messages');
+                const message = document.createElement('div');
+                message.className = 'message assistant';
+                message.innerHTML = `
+                    <div class="message-role">索菲亚的解读</div>
+                    <div class="message-content"><span class="typing-cursor"></span></div>
+                `;
+                messages.appendChild(message);
+                
+                const contentDiv = message.querySelector('.message-content');
+                let fullContent = '';
+                let buffer = '';
+                
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    buffer += decoder.decode(value, { stream: true });
+                    const lines = buffer.split('\n');
+                    buffer = lines.pop();
+                    
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            const data = line.slice(6);
+                            if (data === '[DONE]') continue;
+                            
+                            try {
+                                const parsed = JSON.parse(data);
+                                const delta = parsed.choices[0]?.delta?.content || '';
+                                fullContent += delta;
+                                contentDiv.innerHTML = fullContent + '<span class="typing-cursor"></span>';
+                                messages.scrollTop = messages.scrollHeight;
+                            } catch (e) {}
+                        }
+                    }
+                }
+                
+                // 移除光标
+                contentDiv.innerHTML = fullContent;
+                conversationHistory.push({ role: 'assistant', content: fullContent });
+                
+            } catch (error) {
+                addMessage('assistant', `抱歉，解读失败: ${error.message}`);
+            }
+        }
+        
+        // ========== 追问 ==========
+        async function sendFollowup() {
+            const input = document.getElementById('followupInput');
+            const question = input.value.trim();
+            
+            if (!question) return;
+            
+            input.value = '';
+            input.disabled = true;
+            document.getElementById('followupBtn').disabled = true;
+            
+            addMessage('user', question);
+            
+            await streamResponse(question, selectedCards);
+            
+            input.disabled = false;
+            document.getElementById('followupBtn').disabled = false;
+        }
+    </script>
+</body>
+</html>
